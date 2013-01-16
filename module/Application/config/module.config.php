@@ -1,4 +1,6 @@
 <?php
+namespace Application;
+
 /**
  * Zend Framework (http://framework.zend.com/)
  *
@@ -6,7 +8,7 @@
  * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
-
+$path =  realpath( __DIR__ . '/../src/' . __NAMESPACE__ . '/Entity');
 return array(
     'router' => array(
         'routes' => array(
@@ -88,6 +90,25 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+    // Doctrine config
+    'doctrine' => array(
+        'driver' => array(
+//            __NAMESPACE__ . '_driver' => array(
+            'my_annotation_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array($path),
+//                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+//                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
+                    __NAMESPACE__ . '\Entity'  => 'my_annotation_driver'
+                )
+            )
+        )
+    ),
+/*
     'doctrine' => array(
         'driver' => array(
             __NAMESPACE__ . '_driver' => array(
@@ -103,5 +124,5 @@ return array(
                 )
             )
         )
-    ),
+    ),*/
 );
